@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import express from 'express';
 import * as dotenv from 'dotenv';
-import {AppDataSource} from "./data-source.js";
+import {AppDataSource} from "./data-source.ts";
 
 dotenv.config();
 
