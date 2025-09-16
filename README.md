@@ -23,13 +23,11 @@ Aby uruchomić aplikację lokalnie, wykonaj poniższe kroki w terminalu. Upewnij
     ```
     Następnie uruchom serwer deweloperski:
     ```bash
-    npm start
+    npm run dev
     ```
     Serwer będzie dostępny pod adresem `http://localhost:3000`.
 
 ## Przydatne polecenia
 
--   `npm install`: Instaluje zależności projektu.
--   `npm start`: Uruchamia serwer w trybie deweloperskim.
 -   `npx prisma migrate dev --name <nazwa_migracji>`: Tworzy i stosuje nową migrację schematu bazy danych. Używaj, gdy zmieniasz schemat w pliku `prisma/schema.prisma`.
 -   `npx prisma studio`: Otwiera graficzny interfejs do przeglądania i edycji danych w bazie.
