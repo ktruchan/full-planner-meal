@@ -1,0 +1,64 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            Int        @id @default(autoincrement())
+  username      String     @unique
+  password_hash String
+  created_at    DateTime   @default(now())
+  meals         Meal[]
+  meal_plans    MealPlan[]
+}
+
+model Meal {
+  id          Int      @id @default(autoincrement())
+  user        User     @relation(fields: [user_id], references: [id])
+  user_id     Int
+  name        String
+  description String?
+  created_at  DateTime @default(now())
+
+  ingredients MealIgredient[]
+  meal_plans  MealPlan[]
+}
+
+model MealIgredient {
+  meal_id       Int
+  meal          Meal       @relation(fields: [meal_id], references: [id])
+  ingredient_id Int
+  ingredient    Ingredient @relation(fields: [ingredient_id], references: [id])
+  quantity      Float?
+  unit          String?
+
+  @@id([meal_id, ingredient_id]) // Klucz złożony
+}
+
+model Ingredient {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  meals MealIgredient[]
+}
+
+model MealPlan {
+  id        Int      @id @default(autoincrement())
+  user_id   Int
+  user      User     @relation(fields: [user_id], references: [id])
+  meal_id   Int
+  meal      Meal     @relation(fields: [meal_id], references: [id])
+  date      DateTime @db.Date // Typ Date w PostgreSQL
+  meal_type String
+}
