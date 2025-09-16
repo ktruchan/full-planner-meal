@@ -1,19 +1,12 @@
-import 'reflect-metadata';
 import express from 'express';
-import * as dotenv from 'dotenv';
-import {AppDataSource} from "./data-source.ts";
-
-dotenv.config();
 
 const app = express();
+const port = process.env.PORT || 3000;
 
-AppDataSource.initialize()
-    .then(() => {
-        // Po udanym połączeniu z bazą danych, uruchom serwer Express
-        app.listen(3000, () => {
-            console.log('Server is running on http://localhost:3000');
-        });
+app.get('/', (req, res) => {
+    res.send('Heeeeelo!');
+});
 
-        console.log('Connected to the database!');
-    })
-    .catch((error) => console.log("Database connection error: ", error));
+app.listen(port, () => {
+    console.log(`Server is running at http://localhost:${port}`);
+});
