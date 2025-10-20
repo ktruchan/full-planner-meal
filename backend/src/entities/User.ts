@@ -15,9 +15,9 @@ export class User {
     password!: string;
 
     /**
-     * Hook "BeforeInsert" - to jest świetna praktyka!
+     * Hook "BeforeInsert"
      * Ta funkcja uruchomi się automatycznie tuż PRZED zapisaniem
-     * nowego użytkownika do bazy danych (czyli przed `INSERT`).
+     * nowego użytkownika do bazy danych
      */
     @BeforeInsert()
     async hashPassword() {
