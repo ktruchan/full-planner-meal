@@ -31,3 +31,16 @@ Aby uruchomić aplikację lokalnie, wykonaj poniższe kroki w terminalu. Upewnij
 
 -   `npx prisma migrate dev --name <nazwa_migracji>`: Tworzy i stosuje nową migrację schematu bazy danych. Używaj, gdy zmieniasz schemat w pliku `prisma/schema.prisma`.
 -   `npx prisma studio`: Otwiera graficzny interfejs do przeglądania i edycji danych w bazie.
+
+
+
+## API Documentation
+
+### 1. Authentication (`/api/auth`)
+
+| Metoda | Endpoint | Opis | Wymagane Body (JSON) | Odpowiedź Sukces (2xx) | Odpowiedź Błąd (4xx) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| `POST` | `/register` | Rejestruje nowego użytkownika. | `{ "email": "string", "password": "string" }` | `201 Created` - `{ "id": 1, "email": "user@email.com" }` | `400 Bad Request` (brak danych), `409 Conflict` (email zajęty) |
+| `POST` | `/login` | Loguje istniejącego użytkownika. | `{ "email": "string", "password": "string" }` | `200 OK` - `{ "message": "Zalogowano...", "token": "jwt.token.string" }` | `400 Bad Request` (brak danych), `401 Unauthorized` (złe hasło) |
+
+---

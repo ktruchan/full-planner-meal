@@ -1,25 +1,33 @@
+import 'reflect-metadata';
 import express from 'express';
-import { PrismaClient } from '@prisma/client';
-import usersRouter from './routes/users';
+import { AppDataSource } from './data-source';
+import dotenv from 'dotenv';
+import authRoutes from './routes/auth.route';
 
-const prisma = new PrismaClient();
-const app = express();
-const port = process.env.PORT || 3000;
+// --- KONFIGURACJA DOTENV ---
+// Musi być wywołane na samej górze, aby reszta aplikacji miała dostęp do .env
+dotenv.config();
 
-app.use(express.json());
+const main = async () => {
+    try {
+        await AppDataSource.initialize();
+        console.log('Połączono z bazą danych PostgreSQL.');
 
-app.use('/users', usersRouter);
+        const app = express();
+        const port = process.env.PORT || 3000;
+        app.use(express.json());
 
-app.get('/', (req, res) => {
-    res.send('Ready!');
-});
+        // Mówimy aplikacji Express, aby wszystkie żądania
+        // zaczynające się od '/api/auth' były obsługiwane przez nasz 'authRoutes'
+        app.use('/api/auth', authRoutes);
 
-app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
-});
+        app.listen(port, () => {
+            console.log(`Serwer uruchomiony na http://localhost:${port}`);
+        });
 
-//obsługa zamykania serwera i rozłączania z bazą danych
-process.on('beforeExit', async () => {
-    await prisma.$disconnect();
-});
+    } catch (error) {
+        console.error('Błąd podczas inicjalizacji aplikacji:', error);
+    }
+};
 
+main();
