@@ -11,7 +11,7 @@ app.use(express.json());
 app.use('/users', usersRouter);
 
 app.get('/', (req, res) => {
-    res.send('Heeeeelo!');
+    res.send('Ready!');
 });
 
 app.listen(port, () => {
